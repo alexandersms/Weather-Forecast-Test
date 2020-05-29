@@ -9,12 +9,14 @@
       >
         <div class="d-flex align-items-center">
           <div>
-            <div class="display-3 font-weight-bold">4°C</div>
-            <div>Ressenti 2°</div>
+            <div class="display-3 font-weight-bold">
+              {{ currentTemperature.actual }}°C
+            </div>
+            <div>Ressenti {{ currentTemperature.feels }}°</div>
           </div>
           <div class="mx-5">
-            <div class="font-weight-bold">Cloudy</div>
-            <div>Kinshasa, CD</div>
+            <div class="font-weight-bold">{{ currentTemperature.summary }}</div>
+            <div>{{ LOCATION.name }}</div>
           </div>
         </div>
         <div class="icon">🌦</div>
@@ -93,7 +95,6 @@
             <div>-1°C</div>
           </div>
         </div>
-
       </div>
       <!-- end future weather -->
     </div>
@@ -104,8 +105,53 @@
 <script>
 export default {
   name: "Home",
+  data() {
+    return {
+      GEO_API_URL: "https://darksky.net/geo?q=",
+      PROXY: "https://cors-anywhere.herokuapp.com/",
+      WEATHER_API_URL: "https://api.darksky.net/forecast/",
+      API_KEY: "a863d2bf51461f915d4cb114e08b40db",
+      LOCATION: {
+        name: "Kinshasa",
+        lat: -4.3214,
+        lng: 15.3081,
+      },
+      currentTemperature: {
+        actual: "",
+        feels: "",
+        summary: "",
+        icon: "",
+      },
+    };
+  },
   mounted() {
-    console.log("Component Mounted");
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      fetch(
+        `${this.PROXY}${this.WEATHER_API_URL}${this.API_KEY}/${this.LOCATION.lat},${this.LOCATION.lng}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.currentTemperature.actual = Math.round(
+            ((data.currently.temperature - 32) * 5) / 9
+          );
+          this.currentTemperature.feels = Math.round(
+            ((data.currently.apparentTemperature - 32) * 5) / 9
+          );
+          this.currentTemperature.summary = data.currently.summary;
+          this.currentTemperature.icon = data.currently.icon;
+        });
+    },
+    fetchLocation() {
+      fetch(`${this.PROXY}${this.GEO_API_URL}${this.LOCATION.name}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    },
   },
 };
 </script>
