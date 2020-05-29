@@ -18,7 +18,7 @@
             <div class="h1 font-weight-bold">
               {{ currentTemperature.summary }}
             </div>
-            <div>{{ LOCATION.name }}</div>
+            <div class="h4">{{ LOCATION.name }}</div>
           </div>
         </div>
         <div class="icon">
@@ -124,7 +124,7 @@ export default {
         actual: "",
         feels: "",
         summary: "",
-        icon: "",
+        icon: ""
       },
       icons: {
         "clear-day": "😎",
@@ -148,8 +148,8 @@ export default {
       fetch(
         `${this.PROXY}${this.WEATHER_API_URL}${this.API_KEY}/${this.LOCATION.lat},${this.LOCATION.lng}`
       )
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           console.log(data);
           this.currentTemperature.actual = Math.round(
             ((data.currently.temperature - 32) * 5) / 9
@@ -163,12 +163,12 @@ export default {
     },
     fetchLocation() {
       fetch(`${this.PROXY}${this.GEO_API_URL}${this.LOCATION.name}`)
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           console.log(data);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
