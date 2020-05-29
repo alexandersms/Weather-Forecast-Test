@@ -9,17 +9,21 @@
       >
         <div class="d-flex align-items-center">
           <div>
-            <div class="display-3 font-weight-bold">
+            <div class="display-2 font-weight-bold">
               {{ currentTemperature.actual }}°C
             </div>
             <div>Ressenti {{ currentTemperature.feels }}°</div>
           </div>
           <div class="mx-5">
-            <div class="font-weight-bold">{{ currentTemperature.summary }}</div>
+            <div class="h1 font-weight-bold">
+              {{ currentTemperature.summary }}
+            </div>
             <div>{{ LOCATION.name }}</div>
           </div>
         </div>
-        <div class="icon">🌦</div>
+        <div class="icon">
+          {{ icons[currentTemperature.icon] }}
+        </div>
       </div>
       <!-- end current-weather -->
 
@@ -114,7 +118,7 @@ export default {
       LOCATION: {
         name: "Kinshasa",
         lat: -4.3214,
-        lng: 15.3081,
+        lng: 15.3081
       },
       currentTemperature: {
         actual: "",
@@ -122,6 +126,18 @@ export default {
         summary: "",
         icon: "",
       },
+      icons: {
+        "clear-day": "😎",
+        "clear-night": "🌉",
+        rain: "🌧",
+        snow: "❄️",
+        cloudy: "🌥",
+        sleet: "🌨",
+        wind: "🎐",
+        fog: "🌫",
+        "partly-cloudy-day": "🌤",
+        "partly-cloudy-night": "🌃"
+      }
     };
   },
   mounted() {
@@ -171,6 +187,6 @@ export default {
 }
 
 .icon {
-  font-size: 4.5em;
+  font-size: 5em;
 }
 </style>
