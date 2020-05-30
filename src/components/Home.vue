@@ -57,7 +57,7 @@
               <div></div>
               <div class="ml-3 mb-2">
                 {{ icons[day.icon] }}
-                <span class="mx-3">{{ day.summary }}</span>
+                <span class="mx-1">{{ day.summary }}</span>
               </div>
             </div>
           </div>
