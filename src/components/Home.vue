@@ -28,75 +28,26 @@
       <!-- end current-weather -->
 
       <div class="future-weather text-sm bg-light px-5 py-5 overflow-hidden">
-        <div class="d-flex align-items-center">
-          <div class="w-1/5 text-lg text-dark h5">MON</div>
+        <div
+          class="d-flex align-items-center"
+          v-for="(day, index) in daily"
+          :key="day.time"
+          :class="{ 'mt-4': index > 0 }"
+        >
+          <div class="w-1/5 text-lg text-dark h5">
+            {{ toDayOfWeek(day.time) }}
+          </div>
           <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">🌦</div>
-            <div class="ml-3 mb-2">Cloudy with a chance of showers</div>
+            <div class="h4">{{ icons[day.icon] }}</div>
+            <div class="ml-3 mb-2">{{ day.summary }}</div>
           </div>
           <div class="w-1/5 text-right mx-5">
-            <div>2°C</div>
-            <div>-1°C</div>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center mt-4">
-          <div class="w-1/5 text-lg text-dark h5">MON</div>
-          <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">🌦</div>
-            <div class="ml-3 mb-2">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/5 text-right mx-5">
-            <div>2°C</div>
-            <div>-1°C</div>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center mt-4">
-          <div class="w-1/5 text-lg text-dark h5">MON</div>
-          <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">🌦</div>
-            <div class="ml-3 mb-2">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/5 text-right mx-5">
-            <div>2°C</div>
-            <div>-1°C</div>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center mt-4">
-          <div class="w-1/5 text-lg text-dark h5">MON</div>
-          <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">🌦</div>
-            <div class="ml-3 mb-2">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/5 text-right mx-5">
-            <div>2°C</div>
-            <div>-1°C</div>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center mt-4">
-          <div class="w-1/5 text-lg text-dark h5">MON</div>
-          <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">🌦</div>
-            <div class="ml-3 mb-2">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/5 text-right mx-5">
-            <div>2°C</div>
-            <div>-1°C</div>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center mt-4">
-          <div class="w-1/5 text-lg text-dark h5">MON</div>
-          <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">🌦</div>
-            <div class="ml-3 mb-2">Cloudy with a chance of showers</div>
-          </div>
-          <div class="w-1/5 text-right mx-5">
-            <div>2°C</div>
-            <div>-1°C</div>
+            <div>
+              {{ Math.round((Math.round(day.temperatureHigh - 32) * 5) / 9) }}°C
+            </div>
+            <div>
+              {{ Math.round((Math.round(day.temperatureLow - 32) * 5) / 9) }}°C
+            </div>
           </div>
         </div>
       </div>
@@ -115,10 +66,11 @@ export default {
       PROXY: "https://cors-anywhere.herokuapp.com/",
       WEATHER_API_URL: "https://api.darksky.net/forecast/",
       API_KEY: "a863d2bf51461f915d4cb114e08b40db",
+      daily: [],
       LOCATION: {
-        name: "Kinshasa",
-        lat: -4.3214,
-        lng: 15.3081
+        name: "Paris",
+        lat: 48.8534,
+        lng: 2.3486
       },
       currentTemperature: {
         actual: "",
@@ -159,7 +111,15 @@ export default {
           );
           this.currentTemperature.summary = data.currently.summary;
           this.currentTemperature.icon = data.currently.icon;
+
+          this.daily = data.daily.data;
+          console.log(this.daily);
         });
+    },
+    toDayOfWeek(timestamp) {
+      const newDate = new Date(timestamp * 1000);
+      const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
+      return days[newDate.getDay()];
     },
     fetchLocation() {
       fetch(`${this.PROXY}${this.GEO_API_URL}${this.LOCATION.name}`)
