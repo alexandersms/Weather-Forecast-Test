@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container">
+  <div class="container">
     <div class="places-input">
       <input
         type="search"
@@ -10,50 +10,69 @@
 
       <p>Selected: <strong id="address-value">none</strong></p>
     </div>
-    <div class="weather-container w-100 bg-secondary mt-4 overflow-hidden">
+    <div class="weather-container w-100 bg-secondary mt-4 mb-5 overflow-hidden">
       <div
         class="current-weather d-flex align-items-center justify-content-between px-4 py-5"
       >
-        <div class="d-flex align-items-center">
-          <div>
-            <div class="display-2 font-weight-bold">
-              {{ currentTemperature.actual }}°C
+        <div class="container-fluid">
+          <div class="row d-flex align-items-center ">
+            <div class="col-5">
+              <div class="cureentTemp display-3 font-weight-bold">
+                {{ currentTemperature.actual }}°C
+              </div>
+              <div class="cureentTempFeels">
+                Ressenti {{ currentTemperature.feels }}°
+              </div>
             </div>
-            <div>Ressenti {{ currentTemperature.feels }}°</div>
-          </div>
-          <div class="mx-5">
-            <div class="h1 font-weight-bold">
-              {{ currentTemperature.summary }}
+            <div class="col-5 ">
+              <div class="cureentTempSummary h1 font-weight-bold">
+                {{ currentTemperature.summary }}
+              </div>
+              <div class="cureentTempLocation h2">{{ LOCATION.name }}</div>
             </div>
-            <div class="h4">{{ LOCATION.name }}</div>
+            <div class="col-2 ">
+              <div class="icon">
+                {{ icons[currentTemperature.icon] }}
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="icon">
-          {{ icons[currentTemperature.icon] }}
         </div>
       </div>
       <!-- end current-weather -->
 
       <div class="future-weather text-sm bg-light px-5 py-5 overflow-hidden">
         <div
-          class="d-flex align-items-center"
+          class="row d-flex align-items-center"
           v-for="(day, index) in daily"
           :key="day.time"
           :class="{ 'mt-4': index > 0 }"
         >
-          <div class="w-1/5 text-lg text-dark h5">
-            {{ toDayOfWeek(day.time) }}
-          </div>
-          <div class="w-3/5 px-4 d-flex align-items-center">
-            <div class="h4">{{ icons[day.icon] }}</div>
-            <div class="ml-3 mb-2">{{ day.summary }}</div>
-          </div>
-          <div class="w-1/5 text-right mx-5">
-            <div>
-              {{ Math.round((Math.round(day.temperatureHigh - 32) * 5) / 9) }}°C
+          <div class="col-2">
+            <div class="text-lg text-dark h6">
+              {{ toDayOfWeek(day.time) }}
             </div>
-            <div>
-              {{ Math.round((Math.round(day.temperatureLow - 32) * 5) / 9) }}°C
+          </div>
+          <div class="col-8">
+            <div class="text-lg h6">
+              <div></div>
+              <div class="ml-3 mb-2">
+                {{ icons[day.icon] }}
+                <span class="mx-3">{{ day.summary }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="text-lg h6">
+              <div>
+                {{
+                  Math.round((Math.round(day.temperatureHigh - 32) * 5) / 9)
+                }}°C
+              </div>
+              <div>
+                {{
+                  Math.round((Math.round(day.temperatureLow - 32) * 5) / 9)
+                }}°C
+              </div>
             </div>
           </div>
         </div>
@@ -163,10 +182,6 @@ export default {
 </script>
 
 <style scoped>
-.home-container {
-  margin-bottom: 8px;
-}
-
 .places-input {
   color: gray;
   font-weight: 800;
@@ -177,6 +192,25 @@ export default {
 }
 
 .icon {
-  font-size: 5em;
+  font-size: 3.5em;
+}
+
+@media (max-width: 770px) {
+  .cureentTemp {
+    font-size: 45px;
+  }
+  .cureentTempFeels {
+    font-size: 12px;
+  }
+  .cureentTempSummary {
+    font-size: 24px;
+  }
+  .cureentTempLocation {
+    font-size: 18px;
+  }
+
+  .icon {
+    font-size: 2em;
+  }
 }
 </style>
