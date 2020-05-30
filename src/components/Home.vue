@@ -10,7 +10,9 @@
 
       <p>Selected: <strong id="address-value">none</strong></p>
     </div>
-    <div class="weather-container w-100 bg-secondary mt-4 mb-5 overflow-hidden">
+    <div
+      class="weather-container w-100 bg-currentWeather mt-4 mb-5 overflow-hidden"
+    >
       <div
         class="current-weather d-flex align-items-center justify-content-between px-4 py-5"
       >
@@ -40,7 +42,9 @@
       </div>
       <!-- end current-weather -->
 
-      <div class="future-weather text-sm bg-light px-5 py-5 overflow-hidden">
+      <div
+        class="future-weather text-sm bg-futureWeather px-5 py-5 overflow-hidden"
+      >
         <div
           class="row d-flex align-items-center"
           v-for="(day, index) in daily"
@@ -97,13 +101,13 @@ export default {
       LOCATION: {
         name: "Paris",
         lat: 48.8534,
-        lng: 2.3486
+        lng: 2.3486,
       },
       currentTemperature: {
         actual: "",
         feels: "",
         summary: "",
-        icon: ""
+        icon: "",
       },
       icons: {
         "clear-day": "😎",
@@ -115,8 +119,8 @@ export default {
         wind: "🎐",
         fog: "🌫",
         "partly-cloudy-day": "🌤",
-        "partly-cloudy-night": "🌃"
-      }
+        "partly-cloudy-night": "🌃",
+      },
     };
   },
   mounted() {
@@ -125,14 +129,14 @@ export default {
     const placesAutocomplete = places({
       appId: "plGYBGBYZG16",
       apiKey: "ec3285701faacad3de1c0291168e4990",
-      container: document.querySelector("#address")
+      container: document.querySelector("#address"),
     }).configure({
       type: "city",
-      aroundLatLngViaIP: false
+      aroundLatLngViaIP: false,
     });
 
     const $address = document.querySelector("#address-value");
-    placesAutocomplete.on("change", e => {
+    placesAutocomplete.on("change", (e) => {
       $address.textContent = e.suggestion.value;
       this.LOCATION.name = `${e.suggestion.name}, ${e.suggestion.country}`;
       this.LOCATION.lat = e.suggestion.latlng.lat;
@@ -148,16 +152,16 @@ export default {
       handler(newValue, oldValue) {
         this.fetchData();
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     fetchData() {
       fetch(
         `${this.PROXY}${this.WEATHER_API_URL}${this.API_KEY}/${this.LOCATION.lat},${this.LOCATION.lng}`
       )
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           console.log(data);
           this.currentTemperature.actual = Math.round(
             ((data.currently.temperature - 32) * 5) / 9
@@ -176,8 +180,8 @@ export default {
       const newDate = new Date(timestamp * 1000);
       const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
       return days[newDate.getDay()];
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -189,6 +193,14 @@ export default {
 
 .weather-container {
   border-radius: 20px;
+}
+
+.bg-currentWeather {
+  background: #26658c;
+}
+
+.bg-futureWeather {
+  background: #5aa3bf;
 }
 
 .icon {
