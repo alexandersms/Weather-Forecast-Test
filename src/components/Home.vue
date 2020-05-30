@@ -1,7 +1,14 @@
 <template>
   <div class="home-container">
     <div class="places-input">
-      <input type="text" class="form-control form-control-lg w-100" />
+      <input
+        type="search"
+        id="address"
+        class="form-control"
+        placeholder="Rechercher une ville..."
+      />
+
+      <p>Selected: <strong id="address-value">none</strong></p>
     </div>
     <div class="weather-container w-100 bg-secondary mt-4 overflow-hidden">
       <div
@@ -57,6 +64,7 @@
   </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
 <script>
 export default {
   name: "Home",
@@ -94,6 +102,35 @@ export default {
   },
   mounted() {
     this.fetchData();
+
+    const placesAutocomplete = places({
+      appId: "plGYBGBYZG16",
+      apiKey: "ec3285701faacad3de1c0291168e4990",
+      container: document.querySelector("#address")
+    }).configure({
+      type: "city",
+      aroundLatLngViaIP: false
+    });
+
+    const $address = document.querySelector("#address-value");
+    placesAutocomplete.on("change", e => {
+      $address.textContent = e.suggestion.value;
+      this.LOCATION.name = `${e.suggestion.name}, ${e.suggestion.country}`;
+      this.LOCATION.lat = e.suggestion.latlng.lat;
+      this.LOCATION.lng = e.suggestion.latlng.lng;
+    });
+
+    placesAutocomplete.on("clear", function() {
+      $address.textContent = "none";
+    });
+  },
+  watch: {
+    LOCATION: {
+      handler(newValue, oldValue) {
+        this.fetchData();
+      },
+      deep: true
+    }
   },
   methods: {
     fetchData() {
@@ -120,13 +157,6 @@ export default {
       const newDate = new Date(timestamp * 1000);
       const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
       return days[newDate.getDay()];
-    },
-    fetchLocation() {
-      fetch(`${this.PROXY}${this.GEO_API_URL}${this.LOCATION.name}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        });
     }
   }
 };
