@@ -14,6 +14,7 @@ export default {};
 <style>
 a {
   color: #ffffff !important;
+  font-size: 1.2rem;
 }
 .bg-navbar {
   background: #2e6ff2;
