@@ -41,7 +41,9 @@
               <div class="cureentTempSummary h1 font-weight-bold">
                 {{ weathers.currently.summary }}
               </div>
-              <div class="cureentTempLocation h2">{{ LOCATION.name }}</div>
+              <div class="cureentTempLocation h2">
+                {{ weathers.timezone }}
+              </div>
             </div>
             <div class="col-2 ">
               <div class="icon">
@@ -72,15 +74,58 @@
 
 <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
 <script>
+import Places from "vue-places";
 import FutureWeather from "../components/FutureWeather.vue";
 export default {
   name: "Home",
+
+  computed: {
+    weathers() {
+      return this.$store.state.weather;
+    }
+  },
+  mounted() {
+    this.$store.dispatch("getData");
+    // barre de recherche
+    const placesAutocomplete = places({
+      appId: "plGYBGBYZG16",
+      apiKey: "ec3285701faacad3de1c0291168e4990",
+      container: document.querySelector("#address")
+    }).configure({
+      type: "city",
+      aroundLatLngViaIP: false
+    });
+    const $address = document.querySelector("#address-value");
+    placesAutocomplete.on("change", e => {
+      $address.textContent = e.suggestion.value;
+      this.weathers.timezone = `${e.suggestion.name}, ${e.suggestion.country}`;
+      this.weathers.latitude = e.suggestion.latlng.lat;
+      this.weathers.longitude = e.suggestion.latlng.lng;
+    });
+    placesAutocomplete.on("clear", () => {
+      $address.textContent = "none";
+    });
+  },
+  /*
+  methods: {
+    fetchData() {
+      console.log(`LOCATION ${this.form.location.data}`);
+      this.weathers.timezone = this.form.location.data;
+      //console.log(this.weathers.timezone);
+    },
+  },
+  */
   data() {
     return {
-      LOCATION: {
-        name: "Paris",
-        lat: 48.8534,
-        lng: 2.3486
+      options: {
+        appId: "plGYBGBYZG16",
+        apiKey: "ec3285701faacad3de1c0291168e4990"
+      },
+      form: {
+        location: {
+          name: null,
+          data: {}
+        }
       },
       icons: {
         "clear-day": "😎",
@@ -97,51 +142,9 @@ export default {
     };
   },
   components: {
-    FutureWeather
-  },
-  computed: {
-    weathers() {
-      return this.$store.state.weather;
-      console.log(this.weathers);
-    }
-  },
-  mounted() {
-    this.$store.dispatch("getData");
-
-    /*
-    // barre de recherche
-    const placesAutocomplete = places({
-      appId: "plGYBGBYZG16",
-      apiKey: "ec3285701faacad3de1c0291168e4990",
-      container: document.querySelector("#address"),
-    }).configure({
-      type: "city",
-      aroundLatLngViaIP: false
-    });
-
-    const $address = document.querySelector("#address-value");
-    placesAutocomplete.on("change", (e) => {
-      $address.textContent = e.suggestion.value;
-      this.LOCATION.name = `${e.suggestion.name}, ${e.suggestion.country}`;
-      this.LOCATION.lat = e.suggestion.latlng.lat;
-      this.LOCATION.lng = e.suggestion.latlng.lng;
-    });
-
-    placesAutocomplete.on("clear", function() {
-      $address.textContent = "none";
-    });
-    */
+    FutureWeather,
+    Places
   }
-  /*
-  watch: {
-    LOCATION: {
-      handler(newValue, oldValue) {
-        this.fetchData();
-      },
-      deep: true
-    }
-  },
-  */
 };
 </script>
 

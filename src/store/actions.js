@@ -5,8 +5,8 @@ const WEATHER_API_URL = "https://api.darksky.net/forecast/";
 const API_KEY = "a863d2bf51461f915d4cb114e08b40db";
 const location = {
   name: "Paris",
-  lat: 48.8534,
-  lng: 2.3486
+  lat: 48.8637,
+  lng: 2.2769
 };
 
 export const getData = ({ commit }) => {
@@ -14,5 +14,6 @@ export const getData = ({ commit }) => {
     .get(`${PROXY}${WEATHER_API_URL}${API_KEY}/${location.lat},${location.lng}`)
     .then(response => {
       commit("SET_DATA", response.data);
+      console.log(response.data);
     });
 };
