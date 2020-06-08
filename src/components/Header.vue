@@ -4,7 +4,7 @@
       <router-link to="/" class="navbar-brand">Weather App 🌧</router-link>
       <div id="nav">
         <router-link to="/" class="navbar-brand">Home</router-link>
-        <router-link to="/about" class="navbar-brand">About</router-link>
+        <router-link to="/about" class="navbar-brand">A propos</router-link>
       </div>
     </nav>
   </div>
