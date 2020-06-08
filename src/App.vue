@@ -1,29 +1,35 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
-      <a class="navbar-brand" href="#">Weather-Forecast App 🌧</a>
-    </nav>
-    <div class="container mt-4">
-      <Home />
-    </div>
+    <Header />
+    <router-view />
   </div>
 </template>
 
 <script>
-import Home from "@/components/Home.vue";
-
+import Header from "@/components/Header.vue";
 export default {
-  name: "App",
   components: {
-    Home,
-  },
+    Header
+  }
 };
 </script>
+
 <style>
-body {
-  background: #2d6da6;
+* {
+  font-family: "Poppins", sans-serif;
 }
-.bg-navbar {
-  background: #2E6FF2
+body {
+  background: #2d6da6 !important;
+}
+
+#app {
+  color: #2c3e50;
+}
+#nav a {
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
