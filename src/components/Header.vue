@@ -1,22 +1,29 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-navbar">
-      <a class="navbar-brand" href="#">Weather-Forecast App 🌧</a>
-      <a class="nav-item nav-link" href="#">Home</a>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-navbar mb-3">
+      <router-link to="/" class="navbar-brand">Weather App 🌧</router-link>
+      <div id="nav">
+        <router-link to="/" class="navbar-brand">Home</router-link>
+        <router-link to="/about" class="navbar-brand">About</router-link>
+      </div>
     </nav>
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
-<style>
-a {
-  color: #ffffff !important;
-  font-size: 1.2rem;
-}
+<style scoped>
 .bg-navbar {
   background: #2e6ff2;
+}
+
+#nav {
+  padding: 5px;
+}
+
+#nav a {
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #ffffff;
 }
 </style>

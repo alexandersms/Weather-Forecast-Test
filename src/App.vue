@@ -1,24 +1,35 @@
 <template>
   <div id="app">
     <Header />
-    <div class="container mt-4">
-      <router-view></router-view>
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
-
 export default {
-  name: "App",
   components: {
     Header
   }
 };
 </script>
+
 <style>
+* {
+  font-family: "Poppins", sans-serif;
+}
 body {
-  background: #2d6da6;
+  background: #2d6da6 !important;
+}
+
+#app {
+  color: #2c3e50;
+}
+#nav a {
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
