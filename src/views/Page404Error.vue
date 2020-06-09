@@ -22,6 +22,6 @@ export default {
 
 <style scoped>
 .page-wrap {
-  min-height: 90vh;
+  min-height: 85vh;
 }
 </style>
