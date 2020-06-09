@@ -14,6 +14,10 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("../views/About.vue")
+  },
+  {
+    path: "*",
+    component: () => import("../views/Page404Error.vue")
   }
 ];
 

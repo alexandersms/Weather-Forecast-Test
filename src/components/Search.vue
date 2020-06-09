@@ -19,7 +19,7 @@
           @click="searchCity()"
         ></i>
       </form>
-      <p class="text-white text-center" v-if="cityCurrentWeather.length === 0">
+      <p class="text-white text-center font-weight-bold mt-3">
         {{ errormessage }}
       </p>
       <div class="page-title">

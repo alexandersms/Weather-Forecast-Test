@@ -6,7 +6,7 @@
         v-for="(forecast, index) in cityForecast.list"
         :key="index"
       >
-        <h3>{{ dateFormated(forecast.dt) }}</h3>
+        <h3>{{ forecast.dt | moment("ddd, MMM Do") }}</h3>
         <img
           :src="iconURL + forecast.weather[0].icon + ext"
           alt="image temps"
@@ -37,29 +37,6 @@ export default {
   computed: {
     cityForecast() {
       return this.$store.state.cityForecast;
-    }
-  },
-  methods: {
-    dateFormated(timestamp) {
-      const newDate = new Date(timestamp * 1000);
-      const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
-      const months = [
-        "Janv",
-        "Fev",
-        "Mars",
-        "Avril",
-        "Mai",
-        "Juin",
-        "Juillet",
-        "Août",
-        "Septembre",
-        "Octobre",
-        "Novembre",
-        "Décembre"
-      ];
-      return `${days[newDate.getDay()]}, ${[newDate.getDate()]} ${
-        months[newDate.getMonth()]
-      }`;
     }
   }
 };

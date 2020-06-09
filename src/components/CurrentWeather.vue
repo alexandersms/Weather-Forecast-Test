@@ -2,7 +2,7 @@
   <div id="current" v-if="(cityCurrentWeather, cityCurrentWeather.main)">
     <div>
       <h3 class="date">
-        {{ dateFormated(cityCurrentWeather.dt) }}
+        {{ cityCurrentWeather.dt | moment("ddd, MMM Do") }}
       </h3>
       <div v-if="cityCurrentWeather.weather">
         <div class="weatherIcon">
@@ -52,11 +52,12 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       iconURL: `http://openweathermap.org/img/wn/`,
-      ext: "@2x.png"
+      ext: "@2x.png",
     };
   },
   computed: {
@@ -64,29 +65,6 @@ export default {
       return this.$store.state.cityCurrentWeather;
     }
   },
-  methods: {
-    dateFormated(timestamp) {
-      const newDate = new Date(timestamp * 1000);
-      const days = ["DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"];
-      const months = [
-        "Janv",
-        "Fev",
-        "Mars",
-        "Avril",
-        "Mai",
-        "Juin",
-        "Juillet",
-        "Août",
-        "Septembre",
-        "Octobre",
-        "Novembre",
-        "Décembre"
-      ];
-      return `${days[newDate.getDay()]}, ${[newDate.getDate()]} ${
-        months[newDate.getMonth()]
-      }`;
-    }
-  }
 };
 </script>
 
