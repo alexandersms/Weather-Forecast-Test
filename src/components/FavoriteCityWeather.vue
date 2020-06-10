@@ -8,7 +8,10 @@
         :key="favorite.id"
       >
         <h5>{{ favorite.name }}</h5>
-        <button class="btn btn-danger btn-sm float-right mt-1">
+        <button
+          class="btn btn-danger btn-sm float-right mt-1"
+          @click="$store.dispatch('removeFavorite', favorite.id)"
+        >
           <i class="fas fa-trash"></i>
         </button>
       </div>
