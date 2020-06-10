@@ -6,7 +6,7 @@
         v-for="(forecast, index) in cityForecast.list"
         :key="index"
       >
-        <h3>{{ forecast.dt | moment("ddd, MMM Do") }}</h3>
+        <h3>{{ forecast.dt | moment("DD/MM ") }}</h3>
         <img
           :src="iconURL + forecast.weather[0].icon + ext"
           alt="image temps"
