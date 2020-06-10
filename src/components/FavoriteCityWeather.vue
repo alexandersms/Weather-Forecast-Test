@@ -7,7 +7,7 @@
         v-for="favorite in favorites"
         :key="favorite.id"
       >
-        <h5 @click="addFavoriteTitle">{{ favorite.name }}</h5>
+        <h5>{{ favorite.name }}</h5>
         <button
           class="btn btn-danger btn-sm float-right mt-1"
           @click="$store.dispatch('removeFavorite', favorite.id)"
@@ -25,18 +25,6 @@ export default {
   computed: {
     favorites() {
       return this.$store.state.favorites;
-    }
-  },
-  mounted() {
-    console.log("Mounted Fav");
-    console.log(this.favorites.name);
-  },
-  methods: {
-    addFavoriteTitle() {
-      this.$store.dispatch("getFavoriteName", {
-        name: this.$store.state.favorites.name
-      });
-      console.log(this.$store.state.favorites.name);
     }
   }
 };
