@@ -52,19 +52,18 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       iconURL: `http://openweathermap.org/img/wn/`,
-      ext: "@2x.png",
+      ext: "@2x.png"
     };
   },
   computed: {
     cityCurrentWeather() {
       return this.$store.state.cityCurrentWeather;
     }
-  },
+  }
 };
 </script>
 
