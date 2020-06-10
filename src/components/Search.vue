@@ -26,9 +26,17 @@
         <h1 class="h3 text-center" v-if="cityCurrentWeather.length === 0">
           Weather App 🌧
         </h1>
-        <h1 class="h2 text-center" v-else>
-          {{ cityCurrentWeather.name }}
-        </h1>
+        <div v-else>
+          <h1 class="h2 text-center">
+            {{ cityCurrentWeather.name }}
+          </h1>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-primary btn-sm mb-3" @click="addToFavorite">
+              <i class="fa fa-plus" aria-hidden="true"> </i>
+              ajouter au favoris
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -48,7 +56,15 @@ export default {
     },
     errormessage() {
       return this.$store.state.errormessage;
+    },
+    favorites() {
+      return this.$store.state.favorites;
     }
+  },
+  mounted() {
+    console.log("App mounted");
+    if (localStorage.getItem("Cities"))
+      this.$store.state.favorites = JSON.parse(localStorage.getItem("Cities"));
   },
   methods: {
     searchCity() {
@@ -56,6 +72,25 @@ export default {
       this.$store.dispatch("getCityWeather");
       this.$store.dispatch("getCityForecast");
       console.log(this.$store.state.cityName);
+    },
+    addToFavorite() {
+      this.$store.dispatch("addToFavorite", {
+        id: this.$store.state.cityCurrentWeather.id,
+        name: this.$store.state.cityCurrentWeather.name
+      });
+      this.search = "";
+    }
+  },
+  watch: {
+    favorites: {
+      handler() {
+        console.log("Favorites changed!");
+        localStorage.setItem(
+          "Cities",
+          JSON.stringify(this.$store.state.favorites)
+        );
+      },
+      deep: true
     }
   }
 };

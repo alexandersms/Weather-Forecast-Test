@@ -48,7 +48,6 @@ export default {
   flex-flow: row wrap;
   justify-content: space-around;
   align-items: center;
-  font-family: "Karla", sans-serif;
   color: white;
   text-align: center;
   padding-top: 20px;

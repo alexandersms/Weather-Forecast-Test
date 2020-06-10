@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import favorite from "../services/favorite";
 const API_KEY = "c0c4a4b4047b97ebc5948ac9c48c0559";
 const WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
 const FORECAST_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=";
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     cityForecast: [],
     search: "",
     errormessage: "",
-    fetchError: false
+    fetchError: false,
+    favorites: []
   },
   actions: {
     getCityWeather({ commit }) {
@@ -39,6 +41,16 @@ export default new Vuex.Store({
           this.state.errormessage = "";
         })
         .catch(error => commit("API_FAILURE", error));
+    },
+    async addToFavorite({ commit }, city) {
+      console.log("Action: Trying to add in favorite");
+      if (!city || !city.id) {
+        console.error("invalid");
+        return;
+      }
+      const result = await favorite.addToFavorite(city);
+      if (result === true) commit("ADD_TO_FAVORITE", city);
+      else console.error("Could not add to favorite");
     }
   },
   mutations: {
@@ -54,6 +66,10 @@ export default new Vuex.Store({
     },
     SET_CITY_FORECAST(state, data) {
       state.cityForecast = data.data;
+    },
+    ADD_TO_FAVORITE(state, city) {
+      state.favorites.push(city);
+      console.log("Mutation : Ok, city has been added");
     }
   }
 });
