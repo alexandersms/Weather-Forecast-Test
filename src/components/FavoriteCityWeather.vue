@@ -8,6 +8,8 @@
         :key="favorite.id"
       >
         <h5>{{ favorite.name }}</h5>
+        <img :src="iconURL + favorite.icon + ext" alt="image temp" width="50" />
+        <p>{{ favorite.temp }}&deg;C</p>
         <button
           class="btn btn-danger btn-sm float-right mt-1"
           @click="$store.dispatch('removeFavorite', favorite.id)"
@@ -22,6 +24,12 @@
 <script>
 export default {
   name: "FavoriteCityWeather",
+  data() {
+    return {
+      iconURL: `http://openweathermap.org/img/wn/`,
+      ext: "@2x.png"
+    };
+  },
   computed: {
     favorites() {
       return this.$store.state.favorites;
