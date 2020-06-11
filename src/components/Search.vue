@@ -76,7 +76,9 @@ export default {
     addToFavorite() {
       this.$store.dispatch("addToFavorite", {
         id: this.$store.state.cityCurrentWeather.id,
-        name: this.$store.state.cityCurrentWeather.name
+        name: this.$store.state.cityCurrentWeather.name,
+        temp: this.cityCurrentWeather.main.temp.toFixed(0),
+        icon: this.cityCurrentWeather.weather[0].icon
       });
       this.search = "";
     }

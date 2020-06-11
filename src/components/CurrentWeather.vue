@@ -2,7 +2,7 @@
   <div id="current" v-if="(cityCurrentWeather, cityCurrentWeather.main)">
     <div>
       <h3 class="date">
-        {{ cityCurrentWeather.dt | moment("DD/MM ") }}
+        {{ cityCurrentWeather.dt | moment("DD/MM/YYYY ") }}
       </h3>
       <div v-if="cityCurrentWeather.weather">
         <div class="weatherIcon">
